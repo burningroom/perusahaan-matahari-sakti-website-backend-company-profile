@@ -1,0 +1,387 @@
+@import "tailwindcss";
+@import '../../vendor/tallstackui/tallstackui/css/v4.css';
+
+@plugin '@tailwindcss/forms';
+
+@source '../../vendor/tallstackui/tallstackui/**/*.php';
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+
+@theme {
+    --font-poppins: 'Poppins', sans-serif;
+
+    /* Warna Accent - Biru yang lebih hidup */
+    --color-main-accent: #1e56a0;
+    --color-accent-100: #e6f0ff;
+    --color-accent-200: #c2dafd;
+    --color-accent-300: #9bbff9;
+    --color-accent-400: #73a5f5;
+    --color-accent-500: #3d7fe8;
+    --color-accent-600: #1e56a0;
+    --color-accent-700: #164785;
+    --color-accent-800: #0f376a;
+    --color-accent-900: #072650;
+
+    /* Warna Primary - Warna untuk TallStackUI */
+    --color-primary-50: #f0f7ff;
+    --color-primary-100: #e0efff;
+    --color-primary-200: #c2dafd;
+    --color-primary-300: #9bbff9;
+    --color-primary-400: #73a5f5;
+    --color-primary-500: #3d7fe8;
+    --color-primary-600: #1e56a0;
+    --color-primary-700: #164785;
+    --color-primary-800: #0f376a;
+    --color-primary-900: #072650;
+    --color-primary-950: #041b3a;
+
+    /* Warna Secondary - Abu-abu yang lebih netral */
+    --color-secondary-50: #f8fafc;
+    --color-secondary-100: #f1f5f9;
+    --color-secondary-200: #e2e8f0;
+    --color-secondary-300: #cbd5e1;
+    --color-secondary-400: #94a3b8;
+    --color-secondary-500: #64748b;
+    --color-secondary-600: #475569;
+    --color-secondary-700: #334155;
+    --color-secondary-800: #1e293b;
+    --color-secondary-900: #0f172a;
+    --color-secondary-950: #020617;
+
+    /* Warna Dark - Abu-abu yang lebih kontras */
+    --color-dark-50: #EAEAEE;
+    --color-dark-100: #D5D5DD;
+    --color-dark-200: #BBBBC6;
+    --color-dark-300: #A0A0AF;
+    --color-dark-400: #85858F;
+    --color-dark-500: #6A6A75;
+    --color-dark-600: #52525C;
+    --color-dark-700: #3A3A43;
+    --color-dark-800: #27272E;
+    --color-dark-900: #1D1D23;
+    --color-dark-950: #16161B;
+    --color-dark-975: #101014;
+}
+
+@layer base {
+    :root {
+        --main-bg: var(--color-neutral-100);
+        --bg-1: var(--color-white);
+        --bg-2: var(--color-gray-100);
+        --bg-3: var(--color-gray-200);
+        --bg-4: var(--color-gray-300);
+        --bg-5: var(--color-gray-400);
+        --fg-1: oklch(0.13 0.028 261.692);
+        --fg-2: oklch(0.373 0.034 259.733);
+        --fg-3: oklch(0.446 0.03 256.802);
+
+        --primary: var(--color-main-accent);
+        --primary-fg: oklch(1 0 0);
+
+        --secondary: oklch(0.922 0 0);
+        --secondary-fg: oklch(0.145 0 0);
+
+        --overlay: oklch(1 0 0);
+        --overlay-fg: oklch(0.145 0 0);
+
+        --accent: var(--color-main-accent);
+        --accent-hover: var(--color-accent-700);
+        --accent-fg: oklch(1 0 0);
+
+        --muted: oklch(0.97 0 0);
+        --muted-fg: oklch(0.556 0 0);
+
+        --success: oklch(0.596 0.145 163.225);
+        --success-fg: oklch(1 0 0);
+
+        --warning: oklch(0.828 0.189 84.429);
+        --warning-fg: oklch(0.279 0.077 45.635);
+
+        --danger: oklch(0.577 0.245 27.325);
+        --danger-fg: oklch(0.971 0.013 17.38);
+
+        --border: var(--color-gray-200);
+        --input: var(--color-gray-50);
+        --input-fg: var(--color-gray-600);
+        --ring: var(--accent);
+
+        --navbar: oklch(0.97 0 0);
+        --navbar-fg: oklch(0.145 0 0);
+
+        --sidebar: var(--color-white);
+        --sidebar-fg: oklch(0.145 0 0);
+        --sidebar-active-accent-bg: var(--color-main-accent);
+        --sidebar-active-accent-text: white;
+        --sidebar-hover-accent-bg: var(--color-accent-100);
+        --sidebar-hover-accent-text: var(--color-main-accent);
+
+        --card: var(--color-white);
+
+    }
+
+    .dark {
+
+        --main-bg: #161618;
+        --bg-1: #1a1a1e;
+        --bg-2: #202025;
+        --bg-3: #26262B;
+        --bg-4: #2C2C32;
+        --bg-5: #393941;
+        --fg-1: oklch(0.985 0.002 247.839);
+        --fg-2: oklch(0.872 0.01 258.338);
+        --fg-3: oklch(0.707 0.022 261.325);
+
+        --primary: oklch(0.596 0.145 163.225);
+        --primary-fg: oklch(1 0 0);
+
+        --secondary: oklch(0.239 0 0);
+        --secondary-fg: oklch(0.985 0 0);
+
+        --accent: var(--color-accent-600);
+        --accent-hover: var(--color-accent-700);
+        --accent-fg: oklch(1 0 0);
+
+        --muted: oklch(0.205 0 0);
+        --muted-fg: oklch(0.708 0 0);
+
+        --overlay: oklch(0.165 0 0);
+        --overlay-fg: oklch(0.985 0 0);
+
+        --success: oklch(0.596 0.145 163.225);
+        --success-fg: oklch(1 0 0);
+
+        --warning: oklch(0.828 0.189 84.429);
+        --warning-fg: oklch(0.279 0.077 45.635);
+
+        --danger: oklch(0.577 0.245 27.325);
+        --danger-fg: oklch(0.971 0.013 17.38);
+
+        --border: oklch(0.271 0 0);
+        --input: #26262B;
+        --input-fg: var(--color-gray-300);
+        --ring: var(--accent);
+
+        --navbar: oklch(0.165 0 0);
+        --navbar-fg: oklch(0.985 0 0);
+
+        --sidebar: #1a1a1e;
+        --sidebar-fg: oklch(0.985 0 0);
+        --sidebar-active-accent-bg: var(--color-main-accent);
+        --sidebar-active-accent-text: white;
+        --sidebar-hover-accent-bg: var(--bg-3);
+        --sidebar-hover-accent-text: var(--color-gray-300);
+
+        --card: var(--bg-1);
+
+        --chart-1: oklch(0.508 0.118 165.612);
+        --chart-2: oklch(0.696 0.17 162.48);
+        --chart-3: oklch(0.765 0.177 163.223);
+        --chart-4: oklch(0.845 0.143 164.978);
+        --chart-5: oklch(0.905 0.093 164.15);
+    }
+
+
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        @apply border-[var(--border)] ring-[var(--border)] focus-within:!ring-[var(--ring)] focus-within:focus:ring-[var(--ring)] focus:ring-[var(--ring)];
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply text-[var(--fg-2)];
+    }
+
+    p {
+        @apply text-[var(--fg-3)];
+    }
+
+    input[data-autocompleted] {
+        background-color: transparent !important;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:focus {
+        transition: background-color 0s 0s, color 0s 0s;
+        transition-delay: calc(infinity * 1s);
+    }
+
+    .filepond--drop-label,
+    .filepond--panel .filepond--panel-root {
+        @apply  !bg-[var(--bg-1)] border !text-[var(--fg-3)] rounded-lg;
+    }
+
+    .modal-body {
+        overflow: visible !important;
+        overflow-y: auto !important;
+    }
+}
+
+
+
+@utility container {
+    @apply px-4 sm:px-[2.7rem] mx-auto;
+}
+
+@utility responsive-header {
+    @apply flex items-center gap-2;
+}
+
+@utility remove-btn {
+    @apply items-center justify-center rounded-md bg-red-200 dark:bg-red-200 border border-red-300 inline-flex text-red-600 cursor-pointer;
+}
+
+@utility page-heading {
+    @apply text-2xl font-semibold text-[var(--fg-2)];
+}
+
+@utility card {
+    @apply bg-white dark:bg-[var(--bg-2)] p-4 rounded-lg border;
+}
+
+/* Custom animations for login page */
+@keyframes blob {
+    0% {
+        transform: translate(0px, 0px) scale(1);
+    }
+
+    33% {
+        transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+
+    100% {
+        transform: translate(0px, 0px) scale(1);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-blob {
+    animation: blob 7s infinite;
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft 0.8s ease-out;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.8s ease-out;
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+.animation-delay-200 {
+    animation-delay: 0.2s;
+}
+
+.animation-delay-400 {
+    animation-delay: 0.4s;
+}
+
+.animation-delay-600 {
+    animation-delay: 0.6s;
+}
+
+.animation-delay-800 {
+    animation-delay: 0.8s;
+}
+
+/* Glassmorphism effect */
+.glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Hover effects */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
