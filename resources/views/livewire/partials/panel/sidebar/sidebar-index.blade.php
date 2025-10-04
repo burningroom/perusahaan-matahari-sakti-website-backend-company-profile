@@ -13,7 +13,7 @@
         <x-ts-side-bar.item text="Dashboard" icon="home" :route="route('admin.dashboard')" />
         {{-- <x-ts-side-bar.item text="Table" icon="cog" :route="route('admin.table')" /> --}}
         <x-ts-side-bar.item text="Konten Global" opened>
-            <x-ts-side-bar.item text="Slider Beranda" icon="tabler.align-box-left-middle" />
+            <x-ts-side-bar.item text="Slider Beranda" icon="tabler.align-box-left-middle" :route="route('admin.global.slider-beranda')"  />
             <x-ts-side-bar.item text="Peta Lokasi" icon="tabler.align-box-left-middle" />
             <x-ts-side-bar.item text="Galeri" icon="tabler.align-box-left-middle" />
             <x-ts-side-bar.item text="Ulasan" icon="tabler.align-box-left-middle" />

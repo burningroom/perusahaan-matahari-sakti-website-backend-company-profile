@@ -45,14 +45,14 @@ class AppServiceProvider extends ServiceProvider
 
     private function softPersonalizationTallstackUi()
     {
-        TallStackUi::personalize('modal')
-            ->block('wrapper.first', 'fixed inset-0 bg-bg-4/70 transform transition-opacity')
-            ->block('wrapper.second', 'fixed inset-0 z-50 w-screen overflow-y-auto')
-            ->block('wrapper.third', 'mx-auto flex min-h-full w-full transform justify-center p-4')
-            ->block('wrapper.fourth', 'bg-bg-1  flex w-full transform flex-col rounded-xl  text-left shadow-xl transition-all')
-            ->block('title.wrapper', 'dark:border-b-border flex items-center justify-between border-b px-4 py-2.5')
-            ->block('footer', 'dark:text-dark-300 dark:border-t-border flex justify-end gap-2 rounded-b-xl border-t p-4 text-gray-700')
-            ->block('body', 'text-fg-2  py-5  px-4');
+        // TallStackUi::personalize('modal')
+        //     ->block('wrapper.first', 'fixed inset-0 bg-bg-4/70 transform transition-opacity')
+        //     ->block('wrapper.second', 'fixed inset-0 z-50 w-screen overflow-y-auto')
+        //     ->block('wrapper.third', 'mx-auto flex min-h-full w-full transform justify-center p-4')
+        //     ->block('wrapper.fourth', 'bg-bg-1  flex w-full transform flex-col rounded-xl  text-left shadow-xl transition-all')
+        //     ->block('title.wrapper', 'dark:border-b-border flex items-center justify-between border-b px-4 py-2.5')
+        //     ->block('footer', 'dark:text-dark-300 dark:border-t-border flex justify-end gap-2 rounded-b-xl border-t p-4 text-gray-700')
+        //     ->block('body', 'text-fg-2  py-5  px-4');
 
         TallStackUi::personalize('select.styled')
             ->block('input.wrapper.base', 'dark:text-dark-300 dark:bg-dark-800 dark:focus:ring-primary-600 dark:disabled:bg-dark-600 dark:ring-dark-600 flex w-full cursor-pointer items-center gap-x-2 rounded-md border-0 bg-white py-1.5 text-sm ring-1 ring-gray-300 disabled:bg-gray-100 disabled:text-gray-500 disabled:ring-gray-500')
@@ -85,7 +85,9 @@ class AppServiceProvider extends ServiceProvider
         TallStackUi::personalize('sideBar.item')
             ->block('item.icon', 'text-white h-6 w-6 shrink-0 transition-all dark:text-white');
         TallStackUi::personalize('layout.header')
-            ->block('wrapper', 'dark:bg-sidebar/50 bg-sidebar/50 dark:border-border backdrop-blur-sm sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-300/10 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8');
+            ->block('wrapper', 'dark:bg-sidebar/50 bg-sidebar/50 dark:border-border backdrop-blur-sm fixed top-0 left-0 w-full z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-300/10 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 z-[39]');
+        TallStackUi::personalize('layout.header')
+            ->block('slots.left', 'flex items-center gap-2 md:pl-72');
         TallStackUi::personalize('sideBar.item')
             ->block('item.wrapper.border', 'border-outline border-l border-gray-400 dark:border-dark-500 pl-2');
         TallStackUi::personalize('sideBar.item')

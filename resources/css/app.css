@@ -253,6 +253,9 @@
 @utility page-heading {
     @apply text-2xl font-semibold text-[var(--fg-2)];
 }
+@utility paragraph {
+    @apply text-sm text-gray-500;
+}
 
 @utility card {
     @apply bg-white dark:bg-[var(--bg-2)] p-4 rounded-lg border;

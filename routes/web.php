@@ -4,6 +4,7 @@ use App\Enums\RoleEnum;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Livewire\Admin\Global\BerandaSliderIndex;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -20,6 +21,12 @@ Route::prefix('auth')->middleware('guest')->name('auth.')->group(function () {
 
 
 Route::prefix('admin')->middleware(['auth', 'role:' . RoleEnum::ADMIN->value])->name('admin.')->group(function () {
+
+    Route::prefix('global-content')->name('global.')->group(function () {
+        Route::get('slider-beranda', BerandaSliderIndex::class)->name('slider-beranda');
+    });
+
+
 
     Route::get('/', \App\Livewire\Admin\Dashboard\DashboardIndex::class)->name('dashboard');
     Route::get('/table', \App\Livewire\Admin\Table\TableIndex::class)->name('table');

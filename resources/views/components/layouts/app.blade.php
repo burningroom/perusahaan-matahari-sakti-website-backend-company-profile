@@ -30,7 +30,9 @@
         <x-slot:menu>
             <livewire:partials.panel.sidebar.sidebar-index />
         </x-slot:menu>
-        {{ $slot }}
+        <main class="pt-10">
+            {{ $slot }}
+        </main>
     </x-ts-layout>
     @livewireScripts
     @filepondScripts

@@ -237,7 +237,7 @@ return [
         | center: controls if the modal is centered by default.
         */
         'modal' => [
-            'z-index' => 'z-50',
+            'z-index' => 'z-[100]',
             'overflow' => false,
             'blur' => false,
             'persistent' => false,

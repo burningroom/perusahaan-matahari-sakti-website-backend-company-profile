@@ -10,16 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('beranda_sliders', function (Blueprint $table) {
+        Schema::create('languages', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('language_id');
-            $table->foreignUuid('source_id')->nullable();
-            $table->text('media');
-            $table->string('title');
-            $table->text('description');
-            $table->integer('sort_number');
+            $table->string('name');
+            $table->string('code');
+            $table->boolean('is_active');
             $table->timestamps();
-            
         });
     }
 
@@ -28,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('beranda_sliders');
+        Schema::dropIfExists('languages');
     }
 };

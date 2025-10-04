@@ -19,7 +19,15 @@ trait UploadFile
             if ($file instanceof UploadedFile) {
                 $main_folder = Carbon::now()->isoFormat('Y') . '/' . Carbon::now()->isoFormat('MM');
                 $newImageResult = static::handleUploadFile($file, "public/$main_folder/" . $location);
-                $path = "$main_folder/" . $location . '/' . $newImageResult[1];
+                
+                // Check if result is array (for images) or string (for videos/other files)
+                if (is_array($newImageResult)) {
+                    // For images (WebP conversion) - returns [$path, $filename]
+                    $path = "$main_folder/" . $location . '/' . $newImageResult[1];
+                } else {
+                    // For videos and other files - returns full path from storeAs()
+                    $path = str_replace('public/', '', $newImageResult);
+                }
             } else {
                 $path = str_replace('/storage/', '', $file);
             }
@@ -39,7 +47,7 @@ trait UploadFile
      */
     protected static function handleUploadFile($file, $where, $identifier = null, $except_png = true, $isCompressed = true)
     {
-        $extension = !in_array($file->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif', 'webp']) ? $file->getClientOriginalExtension() : 'webp';
+        $extension = $file->getClientOriginalExtension();
         $filename = null;
 
         for ($i = 1; $i <= rand(50, 100); $i++) {
@@ -61,14 +69,19 @@ trait UploadFile
 
         static::createDirectory($where);
 
-        if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp']) && $isCompressed) {
+        // Handle image compression for supported formats
+        if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif']) && $isCompressed) {
+            // For images, use WebP conversion
+            $webpFileName = $identifier ? $identifier . '_' . $filename . '.webp' : $filename . '.webp';
             $new_file = Webp::make($file);
-            $path = $new_file->save(storage_path("app/{$where}/{$savedFileName}"));
+            $path = $new_file->save(storage_path("app/{$where}/{$webpFileName}"));
+            return [$path, $webpFileName];
         } else {
-            $path = $file->save(storage_path("app/{$where}/{$savedFileName}"));
+            // For videos, WebP files, and other formats, use public disk to ensure symlink exposure
+            $relativePath = str_replace('public/', '', $where);
+            $storedPath = $file->storeAs($relativePath, $savedFileName, 'public');
+            return ["public/{$storedPath}", $savedFileName];
         }
-
-        return [$path, $savedFileName];
     }
 
     /**
@@ -77,13 +90,10 @@ trait UploadFile
      * @param  Illuminate\Support\Facades\Request::File $file - the uploaded file (e.g., $request->thumbnail)
      * @param  string $where - path you want to put the file at (e.g., "partner/bg_photo")
      * @param  string $identifier - custom identifier, adding custom string in front of the filename, required if this function is called twice in the same code to prevent generating duplicate filenames. (example, adding "thumbnail" will make generated file name like "thumbnail_filename_time().jpg")
-     * @return array [$path, $savedFileName]
+     * @return array [$is_saved, $savedFileName]
      */
     protected static function uploadImageFromUrl($url, $where, $identifier = null)
     {
-        // $filenameWithExt = $file->getClientOriginalName();
-        // $filename        = Str::slug(pathinfo($filenameWithExt, PATHINFO_FILENAME));
-        // $extension = !in_array($url->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif', 'webp']) ? $file->getClientOriginalExtension() : 'webp';
         $filename = null;
 
         for ($i = 1; $i <= rand(50, 100); $i++) {
@@ -100,12 +110,12 @@ trait UploadFile
 
         } else {
 
-            $savedFileName = $filename . '.' . '.webp';
+            $savedFileName = $filename . '.webp';
         }
 
-        // $new_file = Webp::make($url);
         $image_file = file_get_contents($url);
-        $is_saved = Storage::put("$where/$savedFileName", $image_file);
+        $relativePath = str_replace('public/', '', $where);
+        $is_saved = Storage::disk('public')->put("$relativePath/$savedFileName", $image_file);
 
         return [$is_saved, $savedFileName];
     }
@@ -119,7 +129,7 @@ trait UploadFile
      */
     protected static function createDirectory($path): void
     {
-        $path = $path = storage_path("app/$path");
+        $path = storage_path("app/$path");
 
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
