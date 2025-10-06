@@ -64,20 +64,14 @@ trait HandleLanguage
     /**
      * Scope query by specific language code
      */
-    public function scopeByLanguageCode($query, string $languageCode)
+    public function languageByCode(string $languageCode)
     {
         $cacheKey = "language:{$languageCode}";
 
-        $language = Cache::remember($cacheKey, 3600, function () use ($languageCode) {
+        return Cache::remember($cacheKey, 3600, function () use ($languageCode) {
             return Language::where('code', $languageCode)
-                ->where('is_active', true)
                 ->first();
         });
 
-        if ($language) {
-            return $query->where('language_id', $language->id);
-        }
-
-        return $query->whereNull('id'); // Return empty result if language not found
     }
 }

@@ -24,7 +24,8 @@ class BerandaSliderController extends Controller
     public function index(Request $request)
     {
         try {
-            $activeLanguage = $this->getActiveLanguage();
+            $lang = $request->input('lang', 'id');
+            $activeLanguage = $this->languageByCode($lang);
             $cacheKey = "beranda_sliders_active_{$activeLanguage->code}";
             $sliders = Cache::tags(['beranda_sliders', 'language_' . $activeLanguage->code])
                 ->remember($cacheKey, 1800, function () use ($activeLanguage) {
@@ -64,7 +65,7 @@ class BerandaSliderController extends Controller
     {
         try {
             $cacheKey = "beranda_slider_{$id}";
-            
+
             $slider = Cache::tags(['beranda_sliders', 'slider_' . $id])
                 ->remember($cacheKey, 1800, function () use ($id) {
                     return BerandaSlider::with('language')->find($id);
