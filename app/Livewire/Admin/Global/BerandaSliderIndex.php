@@ -4,16 +4,19 @@ namespace App\Livewire\Admin\Global;
 
 use Livewire\Component;
 use App\Traits\UploadFile;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use App\Traits\HandleFilePond;
 use App\Models\Global\Language;
+use Illuminate\Support\Facades\DB;
 use App\Models\Global\BerandaSlider;
 use App\Services\TranslationService;
-use Illuminate\Support\Facades\DB;
 use TallStackUi\Traits\Interactions;
+use Illuminate\Support\Facades\Storage;
 
 class BerandaSliderIndex extends Component
 {
-    use UploadFile, Interactions, WithFileUploads;
+    use UploadFile, Interactions, WithFileUploads, HandleFilePond;
 
     // Media upload
     public $media;
@@ -37,6 +40,7 @@ class BerandaSliderIndex extends Component
     
     // Array to hold sort numbers for inline editing
     public $sortNumbers = [];
+    public $uploadKey = 'default';
 
     protected $rules = [
         'media' => 'required|mimes:jpg,jpeg,png,gif,webp,mp4,mov,avi,webm|max:10240', 
@@ -89,8 +93,7 @@ class BerandaSliderIndex extends Component
         if ($indonesianSlider) {
             $this->title_id = $indonesianSlider->title;
             $this->description_id = $indonesianSlider->description;
-            $this->existing_media = $indonesianSlider->media; // Store existing media path
-            $this->media = null; // Reset media for new uploads
+            $this->media = Storage::url($indonesianSlider->media); 
             $this->sort_number = $indonesianSlider->sort_number;
         }
 
@@ -105,6 +108,13 @@ class BerandaSliderIndex extends Component
         }
 
         $this->js('$modalOpen("up-cr")');
+        $this->uploadKeyGenerate();
+    }
+
+
+    public function uploadKeyGenerate()
+    {
+        $this->uploadKey = Str::random();
     }
 
     public function autoTranslateToEnglish()

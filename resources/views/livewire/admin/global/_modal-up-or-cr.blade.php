@@ -9,13 +9,16 @@
                     </div>
                 </x-slot:header>
                 <div class="grid grid-cols-1 gap-4">
-                    <x-ts-upload label="Media *" wire:model="media" />
+                    {{-- <x-ts-upload label="Media *" wire:model="media" />
                     @if($existing_media)
                         <div class="mt-2">
                             <p class="text-sm text-gray-600 mb-2">Media saat ini:</p>
                             <img src="{{ Storage::url($existing_media) }}" alt="Current Media" class="w-32 h-32 object-cover rounded border">
                         </div>
-                    @endif
+                    @endif --}}
+                    <div wire:key="uploadKey-{{ $uploadKey }}">
+                        <x-forms.file-upload wire:model="media" label="Media" required />
+                    </div>
                     <x-ts-input wire:model="title_id" label="Judul *" />
                     <x-ts-textarea wire:model="description_id" label="Deskripsi *" />
                 </div>
