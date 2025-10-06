@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use TallStackUi\Facades\TallStackUi;
 use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;
@@ -26,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
         $this->softPersonalizationTallstackUi();
         if (config('app.env') !== 'local') {
             $this->authorizationLogViewer();
+        }
+        if (config('app.env') !== 'local') {
+            URL::forceScheme('https');
+            $this->app['request']->server->set('HTTPS', true);
         }
     }
 
